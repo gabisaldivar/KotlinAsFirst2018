@@ -2,13 +2,13 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.max
 import kotlin.math.sqrt
 
 /**
  * Пример
  *
- * Найти число корней квадратного уравнения ax^2 + bx + c = 0
  */
 fun quadraticRootNumber(a: Double, b: Double, c: Double): Int {
     val discriminant = discriminant(a, b, c)
@@ -23,6 +23,7 @@ fun quadraticRootNumber(a: Double, b: Double, c: Double): Int {
  * Пример
  *
  * Получить строковую нотацию для оценки по пятибалльной системе
+ *
  */
 fun gradeNotation(grade: Int): String = when (grade) {
     5 -> "отлично"
@@ -62,7 +63,17 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return when {
+        age == 1 -> "1 год"
+        age % 100 == 11 -> "$age лет"
+        age % 10 == 0 -> "$age лет"
+        age % 10 == 1 -> "$age год"
+        age % 10 >= 5 -> "$age лет"
+        age <= 20 -> "$age лет"
+        else -> "$age года"
+    }
+}
 
 /**
  * Простая
@@ -73,20 +84,38 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val totalway: Double = ((t1 * v1) + (t2 * v2) + (t3 * v3))
+    val halfway: Double = totalway / 2
+    if (halfway <= t1 * v1)
+        return halfway / v1
+    else if (halfway <= (t2 * v2 + t1 * v1))
+        return ((halfway - (t1 * v1)) / v2) + t1
+    else if (halfway <= (t1 * v1 + t2 * v3 + t3 * v3))
+        return ((halfway - (t2 * v2)) / v3) + t2 + t1
+    return 0.0
+}
+
 
 /**
  * Простая
  *
- * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
+ * раживать друг друга нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
  * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
  * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
  * и 3, если угроза от обеих ладей.
- * Считать, что ладьи не могут загораживать друг друга
+ * Считать, что ладьи не могут заго
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int = when {
+    ((rookX1 == kingX) || (rookY1 == kingY)) &&
+            ((rookX2 == kingX) || (rookY2 == kingY)) -> 3
+    (rookX1 == kingX) || (rookY1 == kingY) -> 1
+    ((rookX2 == kingX) || (rookY1 == kingY)) -> 2
+    else -> 0
+}
+
 
 /**
  * Простая
@@ -100,7 +129,32 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+
+    fun threatKingTower(ax: Int, ay: Int, bx: Int, by: Int): Boolean = kingX == rookX || rookY == kingY
+
+    fun threatKingBishop(ax: Int, ay: Int, bx: Int, by: Int): Boolean =
+            kingX + kingY == bishopX + bishopY || kingX - kingY == bishopX - bishopY
+
+    if (threatKingTower(kingX, kingX, rookX, rookY)) {
+
+        if (threatKingBishop(kingX, kingY, bishopX, bishopY)) {
+            return 3
+        }
+
+    }
+
+    if (threatKingTower(kingX, kingX, rookX, rookY)) {
+        return 1
+    }
+
+    if (threatKingBishop(kingX, kingY, bishopX, bishopY)) {
+        return 2
+    }
+    return 0
+
+}
+
 
 /**
  * Простая
@@ -110,7 +164,22 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a + b <= c) or (a + c <= b) or (b + c <= a))
+        return -1
+    val x = sqr(a)
+    val y = sqr(b)
+    val z = sqr(c)
+    // прямоугольный
+    if ((x + y == z) or (x + z == y) || (y + z == x))
+        return 1
+    // тупоугольный
+    if ((x + y < z) or (x + z < y) || (y + z < x))
+        return 2
+    // остроугольный
+    else
+        return 0
+}
 
 /**
  * Средняя
@@ -120,4 +189,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        (c > b) || (a > d) -> -1
+        (b >= c) && (d >= b) && (c >= a) -> b - c
+        (b > d) && (c > a) -> d - c
+        (d > b) && (a > c) -> b - a
+        else -> d - a
+
+    }
+}
+
+
