@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -43,15 +44,14 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int {
-    return when {
-        ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) && (month == 2) -> 29
-        (month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) ||
-                (month == 10) || (month == 12) -> 31
-        (month == 2) -> 28
-        else -> 30
-    }
-}
+fun daysInMonth(month: Int, year: Int): Int =
+        when {
+            ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) && (month == 2) -> 29
+            (month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) ||
+                    (month == 10) || (month == 12) -> 31
+            (month == 2) -> 28
+            else -> 30
+        }
 
 /**
  * Средняя
@@ -73,9 +73,5 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return when {
-        ((a * b) <= (r * s)) || ((b * c) <= (r * s)) || ((a * c) <= (r * s)) -> true
-        else -> false
-    }
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+        (((a <= r) && ((b <= s) || (c <= s))) || ((b <= r) && ((a <= s) || (c <= s))) || ((c <= r) && ((b <= s) || (a <= s))))
