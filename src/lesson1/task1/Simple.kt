@@ -2,7 +2,6 @@
 
 package lesson1.task1
 
-import java.lang.Math.pow
 import kotlin.math.*
 
 /**
@@ -27,6 +26,7 @@ fun sqr(x: Double) = x * x
  */
 fun discriminant(a: Double, b: Double, c: Double) = sqr(b) - 4 * a * c
 
+
 /**
  * Пример
  *
@@ -47,12 +47,46 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
     return x1 * x2 // Результат
 }
 
+fun middleOfnumbers(a: Int, b: Int, c: Int): Int {
+    val j = a
+    val k = b
+    val i = c
+    if ((j < k) && (k < i)) return k           //&& = LOGICAL AND ("and" isnt related to logical ops)
+    if ((i < k) && (k < j)) return k
+    if ((j < i) && (i < k)) return i
+    if ((k < i) && (i < j)) return i
+    if ((i < j) && (i < k)) return j
+    if ((k < j) && (j < i)) return j
+
+    return -1
+}
+
+fun minofnumbers(a: Int, b: Int): Int {
+    val numberx = a
+    val numbery = b
+    if (numberx > numbery) return numberx
+    else return numbery
+}
+
 /**
  * Пример главной функции
  */
 fun main(args: Array<String>) {
-    val x1x2 = quadraticRootProduct(1.0, 13.0, 42.0)
-    println("Root product: $x1x2")
+
+    println("fff")
+
+    val a = 6
+    val b = 7
+    if (b < a) println(a)
+    else println(b)
+
+    println(maxOf(4, 6))
+    val w = minofnumbers(4, 6)
+    println(w)
+    println(minofnumbers(5, 8))
+    println(middleOfnumbers(7, 8, 8))
+    /* val x1x2 = quadraticRootProduct(1.0, 13.0, 42.0)
+    println("Root product: $x1x2")*/
 }
 
 /**
@@ -62,7 +96,7 @@ fun main(args: Array<String>) {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  * seconds(8, 20, 35)
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 60 * 60 + minutes * 60 + seconds
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
 
 /**
  * Тривиальная
@@ -95,16 +129,16 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(s
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = number / 100 - (number / 1000) * 10
+fun thirdDigit(number: Int): Int = ((number / 100) % 10)
 
 /**
- * Простая
- *
- * Поезд вышел со станции отправления в h1 часов m1 минут (например в 9:25) и
+ *  Простая
+ *  Поезд вышел со станции отправления в h1 часов m1 минут (например в 9:25) и
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = ((hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart))
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+        ((hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart))
 
 /**
  * Простая
@@ -113,12 +147,12 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = pow(1 + percent * 0.01, 3.0) * initial
+fun accountInThreeYears(initial: Int, percent: Int): Double = initial + (initial * (percent / 100.0)) + ((initial * (percent / 100.0)) + initial) * (percent / 100.0) + (((initial * (percent / 100.0)) + initial) + ((initial * (percent / 100.0)) + initial) * (percent / 100.0)) * (percent / 100.0)
 
 /**
- * Простая
- *
- * Пользователь задает целое трехзначное число (например, 478).
- * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
- */
+* Простая
+*
+* Пользователь задает целое трехзначное число (например, 478).
+* Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
+*/
 fun numberRevert(number: Int): Int = ((number % 100) % 10) * 100 + ((number % 100) / 10) * 10 + (number / 100)
