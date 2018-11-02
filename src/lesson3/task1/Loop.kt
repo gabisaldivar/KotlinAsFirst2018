@@ -1,6 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -38,7 +42,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -66,7 +70,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = abs(n)
+    while (number > 0) {
+        count++
+        number /= 10
+    }
+    if (n == 0) return 1
+    return count
+}
+
 
 /**
  * Простая
@@ -74,29 +88,84 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int =klhlk{}kfj
+fun fib(n: Int): Int {
+    if (n == 1 || n == 2) return 1
+    var f1 = 1
+    var f2 = 1
+    var f3 = 2
+
+    for (i in 3..n) {
+        f3 = f1 + f2
+        f2 = f1
+        f1 = f3
+    }
+    return f3
+}
+
 
 /**
+ *
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+   /* val min = min(n, m)
+    for (i in 1..min/2){
+        println(i)
+    }
+    return -1;*/
+    val max = max(n, m)
+    val min = min(n, m)
+    var k = 1
+    for (i in 1..min / 2) {
+        if ((max % min) == 0) {
+            k = min
+            break
+        }
+        if (((m % i) == 0) && ((n % i) == 0)) k = i
+    }
+    return (m * n / k)
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var dividendo = 2
+    var minimo = 0
+    var divisor = n
+        while (divisor > 1)
+            if (divisor % dividendo == 0){
+                divisor = divisor / dividendo
+                if (minimo == 0)
+                    minimo = dividendo
+                else if (dividendo < minimo)
+                    minimo = dividendo
+                dividendo = 2
+            }
+            else
+                dividendo++
+        return minimo
+}
 
 /**
+ *
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    val divisor = n
+    var dividendo = divisor / 2
+    while (dividendo > 1)
+        if (divisor % dividendo == 0) return dividendo
+        else dividendo--
+    return dividendo
+}
 
 /**
  * Простая
@@ -105,7 +174,13 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val min = minOf(m, n)
+    for (i in 2..min) {
+        if ((n % i == 0) && (m % i == 0)) return false
+    }
+    return true
+}
 
 /**
  * Простая
@@ -114,7 +189,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val x1 = Math.sqrt(m.toDouble()).toInt()
+    val x2 = Math.sqrt(n.toDouble()).toInt()
+    for (k in x1..x2) {
+        val sqrK = k * k
+        if ((m <= sqrK) && (sqrK <= n)) return true
+    }
+    return false
+}
 
 /**
  * Средняя
@@ -132,7 +215,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var number = x
+    var sum = 0
+    while (number > 1) {
+        if (number % 2 == 0) number /= 2
+        else number = 3 * number + 1
+        sum++
+    }
+    return sum
+}
+
 
 /**
  * Средняя
@@ -159,7 +252,20 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var temporal = 0
+    var number = n
+    if (number < 10)
+        return number
+
+    while (number > 0) {
+        temporal *= 10
+        temporal += number % 10
+        number /= 10
+    }
+    return temporal
+}
+
 
 /**
  * Средняя
@@ -170,7 +276,19 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+   /* var temporal = 0
+    var numero = n
+
+    while (numero > 0) {
+        temporal *= 10
+        temporal += numero % 10
+        numero /= 10
+    }*/
+
+    val temporal = revert(n)
+    return (n == temporal)
+}
 
 /**
  * Средняя
