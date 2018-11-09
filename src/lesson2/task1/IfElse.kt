@@ -103,19 +103,18 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int = when {
-    ((rookX1 == kingX) || (rookY1 == kingY)) &&
-            ((rookX2 == kingX) || (rookY2 == kingY)) -> 3
-    (rookX1 == kingX) || (rookY1 == kingY) -> 1
-    ((rookX2 == kingX) || (rookY2 == kingY)) -> 2
+    ((kingX == rookX1) || (kingY == rookY1)) && !((kingY == rookX2) || (kingY == rookY2)) -> 1
+    ((kingX == rookX2) || (kingY == rookY2)) && !((kingX == rookX1) || (kingY == rookY1)) -> 2
+    ((kingX == rookX2) || (kingY == rookY2)) && ((kingX == rookX1) || (kingY == rookY1)) -> 3
     else -> 0
 }
-
 
 /**
  * Простая
  *
  * На шахматной доске стоят черный король и белые ладья и слон
  * (ладья бьет по горизонтали и вертикали, слон — по диагоналям).
+ *
  * Проверить, есть ли угроза королю и если есть, то от кого именно.
  * Вернуть 0, если угрозы нет, 1, если угроза только от ладьи, 2, если только от слона,
  * и 3, если угроза есть и от ладьи и от слона.
@@ -123,13 +122,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int =
-        when {
-            (kingX == rookX || kingY == rookY) && ((bishopX - bishopY == kingX - kingY) || (bishopX + bishopY == kingX + kingY)) -> 3
-            ((bishopX - bishopY == kingX - kingY) || (bishopX + bishopY == kingX + kingY)) -> 2
-            (kingX == rookX || kingY == rookY) -> 1
-            else -> 0
-        }
+                          bishopX: Int, bishopY: Int): Int = when {
+    ((kingX == rookX) || (kingY == rookY)) && !((bishopX - bishopY == kingX - kingY) || (bishopX + bishopY == kingX + kingY)) -> 1
+    ((bishopX - bishopY == kingX - kingY) || (bishopX + bishopY == kingX + kingY)) && !((kingX == rookX) || (kingY == rookY)) -> 2
+    (kingX == rookX || kingY == rookY) && ((bishopX - bishopY == kingX - kingY) || (bishopX + bishopY == kingX + kingY)) -> 3
+    else -> 0
+}
 
 /**
  * Простая
@@ -164,11 +162,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
-        when {
-            (c > b) || (a > d) -> -1
-            (b >= c) && (d >= b) && (c >= a) -> b - c
-            (b > d) && (c > a) -> d - c
-            (d > b) && (a > c) -> b - a
-            else -> d - a
-        }
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val theMostLeft = maxOf(a, c)
+    val theMostRight = minOf(b, d)
+
+    if (theMostLeft > theMostRight) return -1
+
+    return theMostRight - theMostLeft
+}

@@ -73,7 +73,8 @@ fun minofnumbers(a: Int, b: Int): Int {
  */
 fun main(args: Array<String>) {
 
-    println("fff")
+    quadraticRootProduct(1.0, 2.0, 3.0)
+    /*println("fff")
 
     val a = 6
     val b = 7
@@ -84,7 +85,7 @@ fun main(args: Array<String>) {
     val w = minofnumbers(4, 6)
     println(w)
     println(minofnumbers(5, 8))
-    println(middleOfnumbers(7, 8, 8))
+    println(middleOfnumbers(7, 8, 8))*/
     /* val x1x2 = quadraticRootProduct(1.0, 13.0, 42.0)
     println("Root product: $x1x2")*/
 }

@@ -2,10 +2,7 @@
 
 package lesson3.task1
 
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Пример
@@ -111,11 +108,11 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-   /* val min = min(n, m)
-    for (i in 1..min/2){
-        println(i)
-    }
-    return -1;*/
+    /* val min = min(n, m)
+     for (i in 1..min/2){
+         println(i)
+     }
+     return -1;*/
     val max = max(n, m)
     val min = min(n, m)
     var k = 1
@@ -137,19 +134,23 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     var dividendo = 2
     var minimo = 0
-    var divisor = n
-        while (divisor > 1)
-            if (divisor % dividendo == 0){
-                divisor = divisor / dividendo
-                if (minimo == 0)
-                    minimo = dividendo
-                else if (dividendo < minimo)
-                    minimo = dividendo
-                dividendo = 2
-            }
-            else
-                dividendo++
-        return minimo
+    val divisor = n
+    while (dividendo <= divisor / 2)
+        if (divisor % dividendo == 0) {
+
+            minimo = dividendo
+            break
+          /*  divisor = divisor / dividendo
+            if (minimo == 0)
+                minimo = dividendo
+            else if (dividendo < minimo)
+                minimo = dividendo
+            dividendo = 2*/
+        } else
+            dividendo++
+    if (minimo == 0) minimo = divisor
+
+    return minimo
 }
 
 /**
@@ -259,8 +260,8 @@ fun revert(n: Int): Int {
         return number
 
     while (number > 0) {
-        temporal *= 10
-        temporal += number % 10
+        temporal = temporal*10
+        temporal = temporal+number % 10
         number /= 10
     }
     return temporal
@@ -277,14 +278,14 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-   /* var temporal = 0
-    var numero = n
+    /* var temporal = 0
+     var numero = n
 
-    while (numero > 0) {
-        temporal *= 10
-        temporal += numero % 10
-        numero /= 10
-    }*/
+     while (numero > 0) {
+         temporal *= 10
+         temporal += numero % 10
+         numero /= 10
+     }*/
 
     val temporal = revert(n)
     return (n == temporal)
@@ -298,7 +299,21 @@ fun isPalindrome(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    val x = n % 10
+    var y = n / 10
+    while (y > 0){
+
+        val w = (y % 10)
+        if (w != x) return true
+
+        y = y / 10
+
+    }
+    return false
+
+
+}
 
 /**
  * Сложная
@@ -309,7 +324,23 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var numberPosition = 0
+    var numberSquared = 0
+    var number = 1
+    while (numberPosition < n) {
+        numberSquared = number * number
+        numberPosition += digitNumber(number * number)
+        number++
+    }
+
+    while (numberPosition > n) {
+        numberPosition--
+        numberSquared = numberSquared / 10
+    }
+
+    return numberSquared % 10
+}
 
 /**
  * Сложная
@@ -320,4 +351,18 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var numberPosition = 0
+    var fibNumber = 0
+    var number = 1
+    while (numberPosition < n) {
+        fibNumber = fib(number)
+        numberPosition = numberPosition + digitNumber(fib(number))
+        number++
+    }
+    while (numberPosition > n) {
+        numberPosition--
+        fibNumber = fibNumber / 10
+    }
+    return fibNumber % 10
+}
