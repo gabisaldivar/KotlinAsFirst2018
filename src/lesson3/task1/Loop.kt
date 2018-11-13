@@ -108,20 +108,20 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    /* val min = min(n, m)
-     for (i in 1..min/2){
-         println(i)
-     }
-     return -1;*/
     val max = max(n, m)
     val min = min(n, m)
     var k = 1
-    for (i in 1..min / 2) {
-        if ((max % min) == 0) {
-            k = min
-            break
+    if ((max % min) == 0) {
+        k = min
+    } else {
+        for (i in min / 2 downTo 1) {
+            if (((min % i) == 0) && ((max % i) == 0)) {
+                k = i
+                break
+            }
+
         }
-        if (((m % i) == 0) && ((n % i) == 0)) k = i
+
     }
     return (m * n / k)
 }
@@ -137,19 +137,11 @@ fun minDivisor(n: Int): Int {
     val divisor = n
     while (dividendo <= divisor / 2)
         if (divisor % dividendo == 0) {
-
             minimo = dividendo
             break
-          /*  divisor = divisor / dividendo
-            if (minimo == 0)
-                minimo = dividendo
-            else if (dividendo < minimo)
-                minimo = dividendo
-            dividendo = 2*/
         } else
             dividendo++
     if (minimo == 0) minimo = divisor
-
     return minimo
 }
 
@@ -191,8 +183,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val x1 = Math.sqrt(m.toDouble()).toInt()
-    val x2 = Math.sqrt(n.toDouble()).toInt()
+    val x1 = sqrt(m.toDouble()).toInt()
+    val x2 = sqrt(n.toDouble()).toInt()
     for (k in x1..x2) {
         val sqrK = k * k
         if ((m <= sqrK) && (sqrK <= n)) return true
@@ -260,8 +252,8 @@ fun revert(n: Int): Int {
         return number
 
     while (number > 0) {
-        temporal = temporal*10
-        temporal = temporal+number % 10
+        temporal = temporal * 10
+        temporal = temporal + number % 10
         number /= 10
     }
     return temporal
@@ -302,7 +294,7 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean {
     val x = n % 10
     var y = n / 10
-    while (y > 0){
+    while (y > 0) {
 
         val w = (y % 10)
         if (w != x) return true
@@ -366,3 +358,5 @@ fun fibSequenceDigit(n: Int): Int {
     }
     return fibNumber % 10
 }
+
+
