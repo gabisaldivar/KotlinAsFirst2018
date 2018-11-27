@@ -183,8 +183,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val x1 = sqrt(m.toDouble()).toInt()
-    val x2 = sqrt(n.toDouble()).toInt()
+    val x1 = Math.ceil(sqrt(m.toDouble())).toInt()
+    val x2 = Math.floor(sqrt(n.toDouble())).toInt()
     for (k in x1..x2) {
         val sqrK = k * k
         if ((m <= sqrK) && (sqrK <= n)) return true
@@ -228,7 +228,6 @@ fun collatzSteps(x: Int): Int {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double = TODO()
-
 /**
  * Средняя
  *

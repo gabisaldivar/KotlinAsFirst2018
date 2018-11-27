@@ -15,6 +15,7 @@ class Tests {
         assertEquals(120.0, factorial(5), 1e-5)
         assertEquals(3628800.0, factorial(10), 1e-5)
         assertEquals(2.43290200817664E18, factorial(20), 1E10)
+
     }
 
     @Test
