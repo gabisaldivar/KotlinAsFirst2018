@@ -135,19 +135,13 @@ class Tests {
     @Test
     @Tag("Easy")
     fun buildGrades() {
-        assertEquals(
-                mapOf<Int, List<String>>(),
-                buildGrades(mapOf())
-        )
-        // TODO: Sort the values here or let the students do it?
-        assertEquals(
-                mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат")),
-                buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
-        )
-        assertEquals(
-                mapOf(3 to listOf("Семён", "Михаил", "Марат")),
-                buildGrades(mapOf("Марат" to 3, "Семён" to 3, "Михаил" to 3))
-        )
+        assertEquals(mapOf<Int, List<String>>(),
+                buildGrades(mapOf()))
+        //TODO: Sort the values here or let the students do it?
+        assertEquals(mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат")),
+                buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5)))
+        assertEquals(mapOf(3 to listOf("Семён", "Михаил", "Марат")),
+                buildGrades(mapOf("Марат" to 3, "Семён" to 3, "Михаил" to 3)))
     }
 
     @Test

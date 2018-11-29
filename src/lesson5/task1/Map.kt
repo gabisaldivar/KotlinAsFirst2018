@@ -94,10 +94,20 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val result = mutableMapOf<String, String>()
+    result.putAll(mapA)
+    for ((name, number) in result) {
+        val x = mapB[name]
+        if ((x != null) && (number != x)) result[name] = "$number, ${mapB[name]}"
+        else result[name] = number
+    }
+    return mapB + result
+}
 
 /**
  * Простая
+ *
  *
  * По заданному ассоциативному массиву "студент"-"оценка за экзамен" построить
  * обратный массив "оценка за экзамен"-"список студентов с этой оценкой".
@@ -118,7 +128,15 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    for ((key, value) in a) {
+        if (!b.containsKey(key) || !b.containsValue(value))
+            return false
+
+    }
+    return true
+}
+
 
 /**
  * Средняя
