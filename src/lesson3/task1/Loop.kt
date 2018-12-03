@@ -183,8 +183,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val x1 = Math.ceil(sqrt(m.toDouble())).toInt()
-    val x2 = Math.floor(sqrt(n.toDouble())).toInt()
+    val x1 = ceil(sqrt(m.toDouble())).toInt()
+    val x2 = floor(sqrt(n.toDouble())).toInt()
     for (k in x1..x2) {
         val sqrK = k * k
         if ((m <= sqrK) && (sqrK <= n)) return true
@@ -269,15 +269,6 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-    /* var temporal = 0
-     var numero = n
-
-     while (numero > 0) {
-         temporal *= 10
-         temporal += numero % 10
-         numero /= 10
-     }*/
-
     val temporal = revert(n)
     return (n == temporal)
 }

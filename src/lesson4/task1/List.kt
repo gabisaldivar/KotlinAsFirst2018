@@ -96,6 +96,7 @@ fun squares(vararg array: Int) = squares(array.toList()).toTypedArray()
  * "А роза упала на лапу Азора" является палиндромом.
  */
 fun isPalindrome(str: String): Boolean {
+
     val lowerCase = str.toLowerCase().filter { it != ' ' }
     for (i in 0..lowerCase.length / 2) {
         if (lowerCase[i] != lowerCase[lowerCase.length - i - 1]) return false
@@ -134,15 +135,14 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.isEmpty()) {
-        return (0.0)
-    } else {
+    return if (list.isEmpty()) (0.0)
+    else {
         var result = 0.0
         for (i in list) {
             result += i
         }
         result /= list.size
-        return result
+        result
     }
 }
 
@@ -170,14 +170,10 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    if (a.isEmpty() || b.isEmpty()) {
-        return 0.0
-    } else {
-        var result = 0.0
-        for (i in 0 until a.size)
-            result += a[i] * b[i]
-        return result
-    }
+    var result = 0.0
+    for (i in 0 until a.size)
+        result += a[i] * b[i]
+    return result
 }
 
 /**
@@ -245,18 +241,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    var divisor = 2
-    val list = mutableListOf<Int>()
-    var number = n
-    while (divisor <= number)
-        if (number % divisor == 0) {
-            list.add(divisor)
-            number /= divisor
-        } else
-            divisor++
-    return list.joinToString("*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
@@ -274,11 +259,6 @@ fun convert(n: Int, base: Int): List<Int> {
         happyList.add(number % base)
         number /= base
     }
-    /*for (i in happyList.size - 1 downTo 0) {
-        val k = happyList[i]
-        happyList2.add(k)
-    }*/
-    happyList.reversed()
     return happyList.reversed()
 }
 
@@ -293,15 +273,14 @@ fun convert(n: Int, base: Int): List<Int> {
 
 fun convertToString(n: Int, base: Int): String {
     val x = convert(n, base)
-    var y: Number
     var result = ""
-    for (i in x)
-        if (i < 9)
-            result += i
-        else {
-            y = i + 87
-            result += y.toChar()
+    for (i in x) {
+        result += if (i > 9) {
+            ('a' - 10) + i
+        } else {
+            i
         }
+    }
     return result
 }
 
@@ -331,7 +310,16 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var result = 0
+    var temporal = 1
+    for (i in str.length - 1 downTo 0) {
+        result += if (str[i] <= '9') (str[i] - '0') * temporal
+        else (str[i] - ('a' - 10)) * temporal
+        temporal *= base
+    }
+    return result
+}
 
 
 /**
