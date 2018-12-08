@@ -101,7 +101,6 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
     for ((name, number) in result) {
         val x = mapB[name]
         if ((x != null) && (number != x)) result[name] = "$number, ${mapB[name]}"
-        else result[name] = number
     }
     return mapB + result
 }
@@ -119,15 +118,9 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val result = mutableMapOf<Int, List<String>>()
-    for (i in 5 downTo 1 step 1) {
-        val list = mutableListOf<String>()
-        for ((studentsName, note) in grades) {
-            if (note == i)
-                list.add(studentsName)
-        }
-        if (!list.isEmpty()) {
-            result[i] = list.sortedDescending()
-        }
+    for ((studentsName, note) in grades) {
+        val studentsList = result[note] ?: listOf()
+        result[note] = studentsList.plus(studentsName).sortedDescending()
     }
     return result
 }
@@ -142,13 +135,8 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    for ((key, value) in b) {
-        if ((value == a[key]) && (b[key] == value))
-            return true
-    }
-    return false
-}
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all { (key, value) -> b[key] == value }
+
 
 /**
  * Средняя
@@ -165,20 +153,21 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val mapCount = mutableMapOf<String, Int>()
 
     for (localPair in stockPrices) {
-        var value: Double = localPair.second
+        var value = localPair.second
         var count = 1
         if (result.contains(localPair.first)) {
             count = mapCount.getValue(localPair.first)
             count += 1
             value = value.plus(result.getValue(localPair.first))
         }
-        mapCount.put(localPair.first, count)
-        result.put(localPair.first, value)
+        mapCount[localPair.first] = count
+        result[localPair.first] = value
     }
 
     for ((key, value) in result) {
-        val total: Double = value / mapCount.getValue(key)
-        result.put(key, total)
+        val total = value / mapCount.getValue(key)
+        result[key] = total
+
     }
     return result
 
@@ -246,24 +235,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val result = mutableMapOf<String, Set<String>>()
-    for (friend1 in friends.keys) {
-        var newFriends = friends.getValue(friend1)
-        for (friend2 in friends.getValue(friend1)) {
-            if (friends.contains(friend2)) {
-                val listFriend2 = friends.getValue(friend2).toMutableSet()
-                listFriend2.remove(friend1)
-                newFriends = newFriends.plus(listFriend2)
-            } else {
-                newFriends = newFriends.plus(friend2)
-                result.put(friend2, setOf())
-            }
-        }
-        result.put(friend1, newFriends)
-    }
-    return result
-}
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
 
 /**
  *
@@ -292,22 +264,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val x = mutableListOf<String>()
-    return if (a.isEmpty() || b.isEmpty())
-        emptyList()
-    else {
-        for (name in a) {
-            for (name1 in b) {
-                if (name == name1)
-                    x.add(name)
-            }
-        }
-        x
-    }
-
-
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b).toList()
 
 /**
  * Средняя
@@ -318,16 +275,9 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    if (chars.isEmpty()) {
-        return false
-    }
-    val palabra = word.toSet().toList()
-    if (chars.intersect(palabra).size == chars.size) {
-        return true
-    }
-    return false
-}
+fun canBuildFrom(chars: List<Char>, word: String): Boolean =
+        chars.joinToString().toLowerCase().toSet().containsAll(word.toLowerCase().toSet())
+
 
 /**
  * Средняя
@@ -351,7 +301,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
             }
         }
         if (cont >= 2) {
-            mapCount.put(x, cont)
+            mapCount[x] = cont
         }
     }
     return mapCount
@@ -371,7 +321,7 @@ fun hasAnagrams(words: List<String>): Boolean {
         for (j in (i + 1) until words.size) {
             val conjunto1 = words[i].toList()
             val conjunto2 = words[j].toList()
-            if (conjunto1.size == conjunto2.size && conjunto1.intersect(conjunto2).size == conjunto1.size) {
+            if (conjunto1.size == conjunto2.size && conjunto1.containsAll(conjunto2)) {
                 return true
             }
         }
@@ -397,12 +347,11 @@ fun hasAnagrams(words: List<String>): Boolean {
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val map = mutableMapOf<Int, Int>()
     for (i in 0 until list.size) {
-        for (j in (i + 1) until list.size) {
-            if ((list[i] + list[j]) == number) {
-                return Pair(i, j)
-            }
-        }
+        val auxiliarNumber = number - list[i]
+        if (auxiliarNumber in map) return map[auxiliarNumber]!! to i
+        else map[list[i]] = i
     }
     return Pair(-1, -1)
 }
