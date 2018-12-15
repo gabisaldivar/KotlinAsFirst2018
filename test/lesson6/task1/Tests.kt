@@ -72,7 +72,6 @@ class Tests {
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
-
     }
 
     @Test
@@ -86,7 +85,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun plusMinus() {
-        assertEquals(0, plusMinus("0"))
+       assertEquals(0, plusMinus("0"))
         assertEquals(4, plusMinus("2 + 2"))
         assertEquals(6, plusMinus("2 + 31 - 40 + 13"))
         assertEquals(-1, plusMinus("0 - 1"))

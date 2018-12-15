@@ -280,7 +280,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
         return false
     }
     val palabra = word.toLowerCase().toSet()
-    val text = chars.joinToString(",").toLowerCase().toSet()
+    val text = chars.joinToString("").toSet()
     if (text.containsAll(palabra)) {
         return true
     }
