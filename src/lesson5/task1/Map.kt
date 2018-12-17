@@ -208,7 +208,6 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
         return null
     }
     return name
-
 }
 
 /**
@@ -302,19 +301,17 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val mapCount = mutableMapOf<String, Int>()
-    for (x in list) {
-        var cont = 0
-        for (y in list) {
-            if (x == y) {
-                cont++
-            }
-        }
-        if (cont >= 2) {
-            mapCount[x] = cont
-        }
+    var cont = 1
+    val otherList = list.sorted()
+    for (letter in 0 until list.size - 1) {
+        if (otherList[letter] == otherList[letter + 1]) {
+            cont++
+            mapCount[otherList[letter]] = cont
+        } else cont = 1
     }
     return mapCount
 }
+
 
 /**
  * Средняя

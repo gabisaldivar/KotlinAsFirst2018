@@ -185,9 +185,9 @@ fun plusMinus(expression: String): Int {
         val list = expression.split(" ")
         var number = 0
         var signs = ""
-        if (expression == "0")
-            return 0
-
+        if (list.size == 1 && !(list.get(0)).contains("+") && !(list.get(0)).contains("-")) {
+            return list.get(0).toInt()
+        }
         if (list.size < 3) {
             throw IllegalArgumentException()
         }

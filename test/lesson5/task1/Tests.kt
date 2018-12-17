@@ -188,6 +188,13 @@ class Tests {
                         "печенье"
                 )
         )
+        /*assertEquals(
+                "Орео",
+                findCheapestStuff(
+                        mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("" to 0.0)),
+                        ""
+                )
+        )*/
     }
 
     @Test
@@ -257,9 +264,9 @@ class Tests {
     @Test
     @Tag("Normal")
     fun canBuildFrom() {
-        //assertFalse(canBuildFrom(emptyList(), "foo"))
+        assertFalse(canBuildFrom(emptyList(), "foo"))
         assertTrue(canBuildFrom(listOf('a', 'b', 'o'), "baobab"))
-        //assertFalse(canBuildFrom(listOf('a', 'm', 'r'), "Marat"))
+        assertFalse(canBuildFrom(listOf('a', 'm', 'r'), "Marat"))
     }
 
     @Test
