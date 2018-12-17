@@ -105,9 +105,8 @@ fun dateDigitToStr(digital: String): String {
             return ""
         val day = text[0].toInt()
         val year = text[2].toInt()
-        val month = months[text[1].toInt() - 1]
-        return if ((daysInMonth(text[1].toInt(), year) >= day))
-            String.format("%d %s %s", day, month, year)
+        return if (((daysInMonth(text[1].toInt(), year) >= day) && (text[1].toInt() <= 12)))
+            String.format("%d %s %s", day, months[text[1].toInt() - 1], year)
         else ""
     } else return ""
 }
@@ -164,8 +163,10 @@ fun bestHighJump(jumps: String): Int {
     var result = -1
     for (i in 0 until list.size step 2) {
         val x = list[i].toInt()
-        if (list[i + 1] == "+" || list[i + 1] == "%+" && x > result) {
-            result = list[i].toInt()
+        if (list[i + 1] == "+" || list[i + 1] == "%+" || list[i + 1] == "%%+") {
+            if (x > result) {
+                result = x
+            }
         }
     }
     return result

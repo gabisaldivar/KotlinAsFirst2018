@@ -275,15 +275,12 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    if (chars.isEmpty()) {
+    if (chars.isEmpty() || word.isEmpty()) {
         return false
     }
     val palabra = word.toLowerCase().toSet()
     val text = chars.joinToString("").toSet()
-    if (text.containsAll(palabra)) {
-        return true
-    }
-    return false
+    return text.containsAll(palabra)
 }
 
 
@@ -327,7 +324,7 @@ fun hasAnagrams(words: List<String>): Boolean {
         for (j in (i + 1) until words.size) {
             val conjunto1 = words[i].toList()
             val conjunto2 = words[j].toList()
-            if (conjunto1.size == conjunto2.size && conjunto1.containsAll(conjunto2)) {
+            if (conjunto1.size == conjunto2.size && (conjunto1.containsAll(conjunto2) || conjunto2.containsAll(conjunto1))) {
                 return true
             }
         }

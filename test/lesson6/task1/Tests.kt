@@ -53,6 +53,7 @@ class Tests {
         assertEquals("", dateDigitToStr("ab.cd.ef"))
         assertEquals("", dateStrToDigit("32.09.2011"))
         assertEquals("", dateStrToDigit("29.02.1993"))
+        assertEquals("", dateDigitToStr("89.51.2805954"))
     }
 
     @Test
@@ -80,6 +81,7 @@ class Tests {
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
+        assertEquals(613353970, bestHighJump("203877093 %%+ 147483648 %+ 396927718 %%+ 101565203 %%- 613353970 + 147483647 + 416423275 + 147483648 %+ 147483647 %+"))
     }
 
     @Test
