@@ -194,6 +194,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     var name = ""
     var value = 0.0
     for ((name1, p) in stuff) {
+        if ((p.first == kind) && p.second == 0.0) return name1
         if (p.first == kind) {
             if (value == 0.0) {
                 value = p.second
@@ -275,8 +276,10 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    if (chars.isEmpty() || word.isEmpty()) {
+    if (chars.isEmpty())
         return false
+    if (word.isEmpty()) {
+        return true
     }
     val palabra = word.toLowerCase().toSet()
     val text = chars.joinToString("").toSet()

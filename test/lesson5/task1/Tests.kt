@@ -188,13 +188,6 @@ class Tests {
                         "печенье"
                 )
         )
-        /*assertEquals(
-                "Орео",
-                findCheapestStuff(
-                        mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("" to 0.0)),
-                        ""
-                )
-        )*/
     }
 
     @Test

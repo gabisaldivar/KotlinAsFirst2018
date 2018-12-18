@@ -250,13 +250,25 @@ fun top20Words(inputName: String): Map<String, Int> {
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    var text = File(inputName).bufferedReader().use { it.readText()}
-    for (key in dictionary.keys) {
-        text = text.replace(Regex(key.toString()).toString(), dictionary.get(key).toString().toLowerCase(), true)
+    val text = File(inputName).bufferedReader().use { it.readText() }
+    println(text)
+    val list = text.toList()
+    var result = ""
+    val map2 = mutableMapOf<Char, String>()
+
+    for ((key, value) in dictionary) {
+        map2.put(key.toLowerCase(), value)
+    }
+    for (i in 0 until list.size) {
+        result = if (map2.contains(list[i].toLowerCase())) {
+            result + map2.getValue(list[i].toLowerCase()).toLowerCase()
+        } else {
+            result + list[i]
+        }
     }
     val write = File(outputName).bufferedWriter()
-    text = Character.toUpperCase(text.toList()[0]) + text.substring(1)
-    write.write(text)
+    result = Character.toUpperCase(result.toList()[0]) + result.substring(1)
+    write.write(result)
     write.close()
 }
 /**
@@ -284,7 +296,21 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    var result = ""
+    var len = 0
+    for (line in File(inputName).readLines()) {
+        if (line.toLowerCase().length == line.toLowerCase().toSet().size){
+            if(line.length > len) {
+                result = line
+                len = line.length
+            }else if (line.length == len){
+                result = result + ", " + line
+            }
+        }
+    }
+    val write = File(outputName).bufferedWriter()
+    write.write(result)
+    write.close()
 }
 
 /**
@@ -461,15 +487,44 @@ fun markdownToHtml(inputName: String, outputName: String) {
  * Нули в множителе обрабатывать так же, как и остальные цифры:
 235
  *  10
+ *
 -----
 0
 +235
 -----
 2350
  *
+
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+
+    val lenMax = (lhv * rhv).toString().length + 1
+    val writer = File(outputName).bufferedWriter()
+
+    for (j in 1..(lenMax - lhv.toString().length)) writer.write(" ")
+    writer.write(lhv.toString())
+    writer.newLine()
+    writer.write("*")
+    for (j in 1..(lenMax - rhv.toString().length - 1)) writer.write(" ")
+    writer.write(rhv.toString())
+    writer.newLine()
+    for (j in 1..(lenMax)) writer.write("-")
+    writer.newLine()
+    var number = rhv
+    var cont = 0
+    while (number > 0) {
+        val temp = lhv * (number % 10)
+        if (cont > 0) writer.write("+") else writer.write(" ")
+        for (j in 1..(lenMax - temp.toString().length - cont - 1)) writer.write(" ")
+        writer.write(temp.toString())
+        writer.newLine()
+        number /= 10
+        cont ++
+    }
+    for (j in 1..(lenMax)) writer.write("-")
+    writer.newLine()
+    writer.write(" " + (lhv * rhv))
+    writer.close()
 }
 
 
