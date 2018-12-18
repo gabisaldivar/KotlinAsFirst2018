@@ -191,10 +191,9 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    var name = ""
     var value = 0.0
+    var name: String? = null
     for ((name1, p) in stuff) {
-        if ((p.first == kind) && p.second == 0.0) return name1
         if (p.first == kind) {
             if (value == 0.0) {
                 value = p.second
@@ -204,9 +203,6 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
                 name = name1
             }
         }
-    }
-    if (name == "" && value == 0.0) {
-        return null
     }
     return name
 }
@@ -230,7 +226,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *       "Mikhail" to setOf("Sveta")
  *     )
  *   ) -> mapOf(
- *          "Marat" to setOf("Mikhail", "Sveta"),
+ *          "Marat" to setOf("Mikhail", "Sveta
+ *          "),
  *          "Sveta" to setOf("Marat", "Mikhail"),
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
@@ -276,14 +273,11 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    if (chars.isEmpty())
-        return false
-    if (word.isEmpty()) {
-        return true
+    if (chars.isEmpty()) {
+        return (word.isEmpty())
     }
-    val palabra = word.toLowerCase().toSet()
     val text = chars.joinToString("").toSet()
-    return text.containsAll(palabra)
+    return text.containsAll(word.toLowerCase().toSet())
 }
 
 

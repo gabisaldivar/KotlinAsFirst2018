@@ -299,11 +299,11 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     var result = ""
     var len = 0
     for (line in File(inputName).readLines()) {
-        if (line.toLowerCase().length == line.toLowerCase().toSet().size){
-            if(line.length > len) {
+        if (line.toLowerCase().length == line.toLowerCase().toSet().size) {
+            if (line.length > len) {
                 result = line
                 len = line.length
-            }else if (line.length == len){
+            } else if (line.length == len) {
                 result = result + ", " + line
             }
         }
@@ -551,4 +551,5 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
+
 
