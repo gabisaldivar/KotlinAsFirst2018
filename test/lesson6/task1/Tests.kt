@@ -43,6 +43,7 @@ class Tests {
         assertEquals("", dateStrToDigit("29 февраля 1993"))
     }
 
+
     @Test
     @Tag("Normal")
     fun dateDigitToStr() {
@@ -73,6 +74,9 @@ class Tests {
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
+        assertEquals(-1, bestLongJump("55a 66"))
+        assertEquals(99, bestLongJump("88 99"))
+
     }
 
     @Test
@@ -82,7 +86,11 @@ class Tests {
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
         assertEquals(613353970, bestHighJump("203877093 %%+ 147483648 %+ 396927718 %%+ 101565203 %%- 613353970 + 147483647 + 416423275 + 147483648 %+ 147483647 %+"))
+        assertEquals(55, bestHighJump("225 24 55 +"))
+        assertEquals(22, bestHighJump("22 + 33"))
+        assertEquals(-1, bestHighJump("+++ 55 +++"))
     }
+
 
     @Test
     @Tag("Hard")
@@ -96,7 +104,6 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { plusMinus("+ 4") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - -2") }
         assertThrows(IllegalArgumentException::class.java) { plusMinus("44 - - 12") }
-        assertThrows(IllegalArgumentException::class.java) { plusMinus("4 - + 12") }
     }
 
     @Test
@@ -145,4 +152,5 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
     }
+
 }
