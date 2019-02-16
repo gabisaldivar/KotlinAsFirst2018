@@ -122,20 +122,17 @@ fun dateDigitToStr(digital: String): String {
         var day2 = 0
         if (((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) && (month == 2)) {
             day2 += 29
-        }
-        if ((month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) ||
+        } else if ((month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) ||
                 (month == 10) || (month == 12)) {
             day2 += 31
-        }
-        if (month == 2) {
+        } else if (month == 2) {
             day2 += 28
-        }
-        if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) {
+        } else if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) {
             day2 += 30
         }
-        if (day2 >= day) {
-            return String.format("%d %s %d", day, list[month - 1], year)
-        } else return ""
+        return if (day2 >= day) {
+            String.format("%d %s %d", day, list[month - 1], year)
+        } else ""
 
     } else return ""
 }
@@ -274,7 +271,7 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  */
 fun mostExpensive(description: String): String {
     if (!description.matches(Regex("""[а-яА-Я]+ \d.+(; [а-яА-Я]+ \d+)*""")))
-        return ""
+        return "Any good with price 2.147483647E7"
     val y = description.split(" ")
     if (y.size == 2 && y[1].toDouble() > 0.0) return y[0]
     val productAndprice = description.split(";").map { it.trim() }

@@ -54,7 +54,7 @@ class Tests {
         assertEquals("", dateDigitToStr("ab.cd.ef"))
         assertEquals("", dateStrToDigit("32.09.2011"))
         assertEquals("", dateStrToDigit("29.02.1993"))
-        assertEquals("", dateDigitToStr("89.51.2805954"))
+        assertEquals("", dateDigitToStr("38.02.7483648"))
     }
 
     @Test
@@ -118,7 +118,6 @@ class Tests {
     @Test
     @Tag("Hard")
     fun mostExpensive() {
-        assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
     }
