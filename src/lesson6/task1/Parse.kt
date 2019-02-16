@@ -85,16 +85,12 @@ fun dateStrToDigit(str: String): String {
         var day2 = 0
         if (((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) && (month == 2)) {
             day2 += 29
-        }
-        if ((month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) ||
+        } else if ((month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) ||
                 (month == 10) || (month == 12)) {
             day2 += 31
-        }
-
-        if (month == 2) {
+        } else if (month == 2) {
             day2 += 28
-        }
-        if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) {
+        } else if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) {
             day2 += 30
         }
         if (day2 >= day) {
@@ -311,7 +307,7 @@ fun mostExpensive(description: String): String {
 fun fromRoman(roman: String): Int {
     val mapa = mapOf("I" to 1, "V" to 5, "X" to 10, "L" to 50, "C" to 100, "D" to 500, "M" to 1000)
     val romanNumber = roman.split("").filter { it != "" }.reversed()
-    if (!romanNumber.all { eleCh -> "IVXLCDM".contains(eleCh) })
+    if (!romanNumber.all { eleCh -> "IVXLCDM".contains(eleCh) } || romanNumber.isEmpty())
         return -1
     var value: Int
     var nextValue: Int
