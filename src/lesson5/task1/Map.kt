@@ -169,8 +169,9 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
         var value = localPair.second
         var count = 1
         if (result.contains(localPair.first)) {
-            value += (result.getValue(localPair.first))
+            count = mapCount.getValue(localPair.first)
             count += 1
+            value += (result.getValue(localPair.first))
 
         }
         mapCount[localPair.first] = count
@@ -282,7 +283,6 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b
  *
  * Например:
  *   canBuildFrom(listOf('A', 'b', 'o'), "baobOb") -> true
-
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     if (chars.isEmpty()) {
@@ -292,18 +292,6 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
 
     return text.containsAll(word.toLowerCase().toSet())
 }
-    /*if (chars.isEmpty()) {
-        return (word.isEmpty())
-    }
-    var cont = 0
-    val list = chars.toString().toLowerCase().toSet()
-    for (i in 0 until word.length) {
-        cont += if (list.contains(word.toLowerCase().toList().elementAt(i)) == true) 1 else 0
-    }
-
-    return (cont == word.length)*/
-
-
 
 /**
  * Средняя
@@ -385,17 +373,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     return Pair(-1, -1)
 }
 
-
-/*   val map = mutableMapOf<Int, Int>()
-   for (i in 0 until list.size) {
-       val auxiliarNumber = number - list[i]
-       if (auxiliarNumber in map) return map[auxiliarNumber]!! to i
-       else map[list[i]] = i
-   }
-   return Pair(-1, -1)*/
-
-
-
 /**
  * Очень сложная
  *
@@ -415,23 +392,4 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-
-    val result = mutableSetOf<String>()
-    for ((name, weightAndprice) in treasures) {
-        if (weightAndprice.first <= capacity) {
-            result.add(name)
-        }
-    }
-    return result
-}
-
-        /*val result = mutableSetOf<String>()
-        val map = treasures.filterValues { it.first <= capacity }
-
-    println(map)
-*//*
-
-    }
-    return result*/
-
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()

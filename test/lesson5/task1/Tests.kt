@@ -152,7 +152,8 @@ class Tests {
         assertTrue(containsIn(mapOf("Maria" to "2", "Raul" to "3", "Daniel" to "5"), mapOf("Gaby" to "6", "Maria" to "2", "Raul" to "3", "Daniel" to "5")))
         assertFalse((containsIn(mapOf("Maria" to "2", "Raul" to "3", "Daniel" to "5"), mapOf("Gaby" to "6", "Maria" to "2", "Raul" to "3", "Daniel" to "9"))))
     }
-//done
+
+    //done
     @Test
     @Tag("Normal")
     fun averageStockPrice() {
@@ -171,6 +172,10 @@ class Tests {
         assertEquals(
                 mapOf("MSFT" to 150.0, "NFLX" to 45.0),
                 averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0, "NFLX" to 50.0))
+        )
+        assertEquals(
+                mapOf("MSFT" to 300.0, "NFLX" to 45.0),
+                averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0, "NFLX" to 50.0, "MSFT" to 600.0))
         )
     }
 

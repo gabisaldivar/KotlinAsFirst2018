@@ -68,6 +68,7 @@ Basic, Ruby, Swift.
     @Tag("Normal")
     fun sibilants() {
         sibilants("input/sibilants_in1.txt", "temp.txt")
+
         assertFileContent("temp.txt",
 """/**
  * Простая

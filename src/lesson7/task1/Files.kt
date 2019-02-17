@@ -2,7 +2,9 @@
 
 package lesson7.task1
 
+import lesson5.task1.extractRepeats
 import java.io.File
+import java.lang.StringBuilder
 
 /**
  * Пример
@@ -21,6 +23,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
     for (line in File(inputName).readLines()) {
         if (line.isEmpty()) {
             outputStream.newLine()
+
             if (currentLineLength > 0) {
                 outputStream.newLine()
                 currentLineLength = 0
@@ -54,22 +57,17 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
+    val text = File(inputName).readText().toLowerCase()
+    val result = mutableMapOf<String, Int>()
     for (word in substrings) {
-        map.put(word, 0)
-    }
+        if (text.contains(word.toLowerCase())) {
+            val i = Regex(word.toLowerCase()).findAll(text.toLowerCase()).toList().size
+            result[word] = i
+        } else result[word] = 0
 
-    for (line in File(inputName).readLines()) {
-        if (line.isNotEmpty()) {
-            for (word in substrings) {
-                val cont = map.getValue(word)
-                map.put(word, cont + line.toLowerCase().split(word.toLowerCase()).size - 1)
-            }
-        }
     }
-    return map
+    return result
 }
-
 
 /**
  * Средняя
@@ -85,33 +83,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    var readtext = File(inputName).readText()
-    val listConsonat = listOf('Ж', 'Ч', 'Ш', 'Щ')
-    val listBadVowels = listOf('Ы', 'Я', 'Ю')
-    val listGoodVowels = listOf('И', 'А', 'У')
-    for (consoant in listConsonat){
-        for (i in 0 until listBadVowels.size){
-            val temp_ab = consoant.toLowerCase() + listBadVowels[i].toLowerCase().toString()
-            val temp_Ab = consoant.toUpperCase() + listBadVowels[i].toLowerCase().toString()
-            val temp_AB = consoant.toUpperCase() + listBadVowels[i].toUpperCase().toString()
-            val temp_aB = consoant.toLowerCase() + listBadVowels[i].toUpperCase().toString()
-
-            val good_ab = consoant.toLowerCase() + listGoodVowels[i].toLowerCase().toString()
-            val good_Ab = consoant.toUpperCase() + listGoodVowels[i].toLowerCase().toString()
-            val good_AB = consoant.toUpperCase() + listGoodVowels[i].toUpperCase().toString()
-            val good_aB = consoant.toLowerCase() + listGoodVowels[i].toUpperCase().toString()
-
-            readtext = readtext.replace(Regex(temp_ab), good_ab)
-            readtext = readtext.replace(Regex(temp_Ab), good_Ab)
-            readtext = readtext.replace(Regex(temp_AB), good_AB)
-            readtext = readtext.replace(Regex(temp_aB), good_aB)
-
-        }
-    }
-
-    val writer = File(outputName).bufferedWriter()
-    writer.write(readtext)
-    writer.close()
+    TODO()
 }
 
 /**
@@ -132,18 +104,18 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    var lines: List<String> = File(inputName).readLines()
-    lines = lines.map { it.trim()}
-    val max= lines.maxBy {it.length}?.length
-    val write = File(outputName).bufferedWriter()
-    for(line in lines) {
-        for (j in 1..(max!! - line.length) / 2) {
-            write.write(" ")
-        }
-        write.write(line)
-        write.newLine()
+    val line = File(inputName).readLines().map { it.trim() }
+    val countList = mutableListOf<Int>()
+    for (element in line) {
+        val count = element.length
+        countList.add(count)
     }
-    write.close()
+    val lenght = countList.max() ?: 0
+    val newLenght = line.joinToString("\n") {
+        " ".repeat((lenght - it.length) / 2) + it
+    }
+
+    File(outputName).writeText(newLenght)
 }
 
 /**
@@ -196,22 +168,12 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    val result = mutableMapOf<String, Int>()
-    for(line in File(inputName).readLines()) {
-        val words = Regex("""[a-zа-яё]+""").findAll(line.toLowerCase())
-        for (word in words) {
-            val temp = word.value
-            println(temp)
-            if (result.contains(temp)) {
-                val value = result.getValue(temp) + 1
-                result.put(temp, value)
-            } else {
-                result.put(temp, 1)
-            }
-        }
-    }
-    return if (result.toList().size <= 20) result.toList().sortedByDescending { it.second }.toMap()
-    else result.toList().sortedByDescending { it.second }.subList(0, 20).toMap()
+
+    val text = File(inputName).readText().toLowerCase().trim()
+    val j = Regex("""[а-яА-ЯёЁa-zA-Z]+""").findAll(text).map { it.value }.toList()
+    val result = extractRepeats(j).map { (k, v) -> k to v }.sortedByDescending { it.second }
+    return result.take(20).toMap()
+
 }
 
 /**
@@ -250,27 +212,9 @@ fun top20Words(inputName: String): Map<String, Int> {
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    val text = File(inputName).bufferedReader().use { it.readText() }
-    println(text)
-    val list = text.toList()
-    var result = ""
-    val map2 = mutableMapOf<Char, String>()
-
-    for ((key, value) in dictionary) {
-        map2.put(key.toLowerCase(), value)
-    }
-    for (i in 0 until list.size) {
-        result = if (map2.contains(list[i].toLowerCase())) {
-            result + map2.getValue(list[i].toLowerCase()).toLowerCase()
-        } else {
-            result + list[i]
-        }
-    }
-    val write = File(outputName).bufferedWriter()
-    result = Character.toUpperCase(result.toList()[0]) + result.substring(1)
-    write.write(result)
-    write.close()
+    TODO()
 }
+
 /**
  * Средняя
  *
@@ -296,21 +240,20 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    var result = ""
-    var len = 0
-    for (line in File(inputName).readLines()) {
-        if (line.toLowerCase().length == line.toLowerCase().toSet().size) {
-            if (line.length > len) {
-                result = line
-                len = line.length
-            } else if (line.length == len) {
-                result = result + ", " + line
-            }
+    val text = File(inputName).readLines()
+    val x = mutableListOf<Int>()
+    for (word in text) {
+        x.add(word.toLowerCase().toSet().count())
+    }
+    val lenght = x.max() ?: 0
+    val result = File(outputName)
+    for (element in text) {
+        if (element.toLowerCase().toSet().count() == lenght) {
+            println(element)
+            result.writeText(element)
         }
     }
-    val write = File(outputName).bufferedWriter()
-    write.write(result)
-    write.close()
+
 }
 
 /**
@@ -497,34 +440,40 @@ fun markdownToHtml(inputName: String, outputName: String) {
 
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
+    val lengthMax = (lhv * rhv).toString().length + 1
+    val outputWriter = File(outputName).bufferedWriter()
 
-    val lenMax = (lhv * rhv).toString().length + 1
-    val writer = File(outputName).bufferedWriter()
-
-    for (j in 1..(lenMax - lhv.toString().length)) writer.write(" ")
-    writer.write(lhv.toString())
-    writer.newLine()
-    writer.write("*")
-    for (j in 1..(lenMax - rhv.toString().length - 1)) writer.write(" ")
-    writer.write(rhv.toString())
-    writer.newLine()
-    for (j in 1..(lenMax)) writer.write("-")
-    writer.newLine()
+    for (j in 1..(lengthMax - lhv.toString().length))
+        outputWriter.write(" ")
+    outputWriter.write(lhv.toString())
+    outputWriter.newLine()
+    outputWriter.write("*")
+    for (j in 1..(lengthMax - rhv.toString().length - 1))
+        outputWriter.write(" ")
+    outputWriter.write(rhv.toString())
+    outputWriter.newLine()
+    for (j in 1..(lengthMax))
+        outputWriter.write("-")
+    outputWriter.newLine()
     var number = rhv
     var cont = 0
     while (number > 0) {
         val temp = lhv * (number % 10)
-        if (cont > 0) writer.write("+") else writer.write(" ")
-        for (j in 1..(lenMax - temp.toString().length - cont - 1)) writer.write(" ")
-        writer.write(temp.toString())
-        writer.newLine()
+        if (cont > 0) {
+            outputWriter.write("+")
+        } else outputWriter.write(" ")
+        for (j in 1..(lengthMax - temp.toString().length - cont - 1))
+            outputWriter.write(" ")
+        outputWriter.write(temp.toString())
+        outputWriter.newLine()
         number /= 10
-        cont ++
+        cont++
     }
-    for (j in 1..(lenMax)) writer.write("-")
-    writer.newLine()
-    writer.write(" " + (lhv * rhv))
-    writer.close()
+    for (j in 1..(lengthMax))
+        outputWriter.write("-")
+    outputWriter.newLine()
+    outputWriter.write(" " + (lhv * rhv))
+    outputWriter.close()
 }
 
 
