@@ -247,13 +247,14 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     }
     val lenght = x.max() ?: 0
     val result = File(outputName)
+    val list = mutableListOf<String>()
     for (element in text) {
         if (element.toLowerCase().toSet().count() == lenght) {
-            println(element)
-            result.writeText(element)
+            list.add(element)
+
         }
     }
-
+    result.writeText(list.joinToString())
 }
 
 /**
