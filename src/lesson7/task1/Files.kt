@@ -171,7 +171,7 @@ fun top20Words(inputName: String): Map<String, Int> {
 
     val text = File(inputName).readText().toLowerCase().trim()
     val j = Regex("""[а-яА-ЯёЁa-zA-Z]+""").findAll(text).map { it.value }.toList()
-    val result = extractRepeats(j).map { (k, v) -> k to v }.sortedByDescending { it.second }
+    val result = j.groupBy { it }.map { (k, v) -> k to v.count() }.sortedByDescending { it.second }
     return result.take(20).toMap()
 
 }
@@ -243,7 +243,8 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val text = File(inputName).readLines()
     val x = mutableListOf<Int>()
     for (word in text) {
-        x.add(word.toLowerCase().toSet().count())
+        if (word.toLowerCase().toSet().count() != word.length)
+            x.add(word.toLowerCase().toSet().count())
     }
     val lenght = x.max() ?: 0
     val result = File(outputName)
